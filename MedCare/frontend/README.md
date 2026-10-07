@@ -27,9 +27,3 @@ Não há cadastro, edição, exclusão, busca, envio de formulários, validaçã
 - `assents/templates/index.html`: todas as telas, tabelas e formulários estáticos.
 - `assents/css/style.css`: layout e aparência responsiva.
 - `assents/js/app.js`: somente navegação por hash e indicação da tela ativa.
-
-Foram removidos `data.js`, `repository.js` e `tests/repository.test.cjs`, que pertenciam à demonstração funcional anterior. Nenhum arquivo do back-end foi alterado.
-
-## Conferência manual
-
-Navegue pelas seis áreas e expanda os cinco formulários. Confira que todos os controles de operação estão desativados. Em uma janela pequena, verifique a rolagem horizontal das tabelas e os campos em uma coluna. Voltar e avançar do navegador devem acompanhar a navegação entre as telas.
