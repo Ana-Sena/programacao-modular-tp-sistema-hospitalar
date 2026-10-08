@@ -7,7 +7,7 @@ target/
 .agents
 .aws
 .codex
-.vscode
+.vscode/
 
 ### STS ###
 .apt_generated
