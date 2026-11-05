@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 /** Consulta direcionada a uma especialidade, com observações opcionais. */
-public class ConsultaEspecializada extends Atendimento {
+public class ConsultaEspecializada extends Consulta {
 
     private final String especialidade;
     private final String observacoes;

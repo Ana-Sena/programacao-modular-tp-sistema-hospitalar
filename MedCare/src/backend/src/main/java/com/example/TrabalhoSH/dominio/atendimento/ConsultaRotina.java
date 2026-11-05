@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 /** Consulta de rotina com motivo e observações opcionais. */
-public class ConsultaRotina extends Atendimento {
+public class ConsultaRotina extends Consulta {
 
     private final String motivo;
     private final String observacoes;
