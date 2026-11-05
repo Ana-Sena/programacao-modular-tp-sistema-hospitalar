@@ -58,14 +58,43 @@ public class Internacao {
         situacao = SituacaoInternacao.ALTA;
     }
 
-    public boolean estaAtiva() { return situacao == SituacaoInternacao.ATIVA; }
-    public String getId() { return id; }
-    public Paciente getPaciente() { return paciente; }
-    public String getMedicoResponsavelId() { return medicoResponsavelId; }
-    public Quarto getQuarto() { return quarto; }
-    public LocalDate getDataEntrada() { return dataEntrada; }
-    public LocalDate getDataPrevistaAlta() { return dataPrevistaAlta; }
-    public LocalDate getDataEfetivaAlta() { return dataEfetivaAlta; }
-    public String getObservacoes() { return observacoes; }
-    public SituacaoInternacao getSituacao() { return situacao; }
+    public boolean estaAtiva() {
+        return situacao == SituacaoInternacao.ATIVA;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public String getMedicoResponsavelId() {
+        return medicoResponsavelId;
+    }
+
+    public Quarto getQuarto() {
+        return quarto;
+    }
+
+    public LocalDate getDataEntrada() {
+        return dataEntrada;
+    }
+
+    public LocalDate getDataPrevistaAlta() {
+        return dataPrevistaAlta;
+    }
+
+    public LocalDate getDataEfetivaAlta() {
+        return dataEfetivaAlta;
+    }
+
+    public String getObservacoes() {
+        return observacoes;
+    }
+
+    public SituacaoInternacao getSituacao() {
+        return situacao;
+    }
 }

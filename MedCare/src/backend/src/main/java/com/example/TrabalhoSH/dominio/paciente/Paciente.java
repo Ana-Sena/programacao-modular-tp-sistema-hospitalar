@@ -67,11 +67,31 @@ public class Paciente {
         return cpf;
     }
 
-    public String getId() { return id; }
-    public String getNome() { return nome; }
-    public String getCpf() { return cpf; }
-    public LocalDate getDataNascimento() { return dataNascimento; }
-    public String getTelefone() { return telefone; }
-    public String getEmail() { return email; }
-    public Endereco getEndereco() { return endereco; }
+    public String getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
 }

@@ -43,12 +43,30 @@ public class Quarto {
         ocupacaoAtual--;
     }
 
-    public String getId() { return id; }
-    public String getNumero() { return numero; }
-    public int getAndar() { return andar; }
-    public TipoQuarto getTipo() { return tipo; }
-    public int getCapacidadeMaxima() { return capacidadeMaxima; }
-    public int getOcupacaoAtual() { return ocupacaoAtual; }
+    public String getId() {
+        return id;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public int getAndar() {
+        return andar;
+    }
+
+    public TipoQuarto getTipo() {
+        return tipo;
+    }
+
+    public int getCapacidadeMaxima() {
+        return capacidadeMaxima;
+    }
+
+    public int getOcupacaoAtual() {
+        return ocupacaoAtual;
+    }
+
     public SituacaoQuarto getSituacao() {
         return possuiVaga() ? SituacaoQuarto.DISPONIVEL : SituacaoQuarto.OCUPADO;
     }
