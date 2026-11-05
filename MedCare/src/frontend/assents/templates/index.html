@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MedCare · Sistema hospitalar</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script defer src="../js/app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#pacientes"><span class="brand-mark" aria-hidden="true">+</span><span>MedCare<small>Sistema hospitalar</small></span></a>
+    <p class="nav-label">ATENDIMENTO</p>
+    <nav aria-label="Navegação principal">
+      <a href="#pacientes" aria-current="page">Pacientes</a><a href="#profissionais">Profissionais</a>
+      <a href="#consultas">Consultas</a><a href="#internacoes">Internações</a>
+      <a href="#quartos">Quartos</a><a href="#historico">Histórico</a>
+    </nav>
+    <div class="sidebar-note"><span class="status-dot"></span> Ambiente acadêmico<p>Dados fictícios para demonstração.</p></div>
+  </aside>
+  <main>
+    <header class="topbar"><span>Gestão de atendimento</span><span class="badge">Sprint 1 · Telas</span></header>
+    <p class="info prototype-note">Protótipo visual · Dados fictícios estáticos. Apenas a navegação entre telas e a visualização dos formulários estão disponíveis.</p>
+    <section id="pacientes" class="screen" aria-labelledby="pacientes-title">
+      <div class="page-heading">
+        <div><p class="eyebrow">CUIDADO EM CADA ETAPA</p><h1 id="pacientes-title">Pacientes</h1><p class="page-description">Cadastre e acompanhe as pessoas sob seus cuidados.</p></div>
+        <button type="button" disabled>+ Novo paciente</button>
+      </div>
+      <div class="panel">
+        <div class="toolbar">
+          <div class="search"><label for="pacientes-search">Buscar em pacientes</label><input id="pacientes-search" type="search" placeholder="Digite para buscar…" disabled></div>
+          <span class="count">3 registros</span>
+        </div>
+        <div class="table-scroll" role="region" aria-label="Lista de pacientes" tabindex="0">
+          <table>
+            <caption hidden>Lista de pacientes</caption>
+            <thead><tr><th scope="col">Paciente</th><th scope="col">CPF</th><th scope="col">Nascimento</th><th scope="col">Telefone</th><th scope="col">Ações</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Ana Clara Martins<span class="subtext">ana@example.com</span></td>
+                <td>000.000.001-00</td>
+                <td>16/04/1992</td>
+                <td>(31) 90000-1001</td>
+                <td><button type="button" class="row-action" disabled>Editar</button></td>
+              </tr>
+              <tr>
+                <td>João Pedro Souza<span class="subtext">joao@example.com</span></td>
+                <td>000.000.002-00</td>
+                <td>23/09/1978</td>
+                <td>(31) 90000-1002</td>
+                <td><button type="button" class="row-action" disabled>Editar</button></td>
+              </tr>
+              <tr>
+                <td>Mariana Oliveira<span class="subtext">mariana@example.com</span></td>
+                <td>000.000.003-00</td>
+                <td>08/01/2001</td>
+                <td>(31) 90000-1003</td>
+                <td><button type="button" class="row-action" disabled>Editar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <details class="form-preview panel">
+        <summary>Visualizar formulário de pacientes</summary>
+        <div class="form-preview-body">
+          <h2>Novo paciente</h2>
+          <p class="form-help">Prévia visual da primeira sprint. Campos e botões sem funcionalidade.</p>
+          <form>
+            <div class="form-grid">
+            <div class="field">
+              <label for="pacientes-nome">Nome completo</label>
+              <input id="pacientes-nome" type="text" disabled>
+            </div>
+            <div class="field">
+              <label for="pacientes-cpf">CPF</label>
+              <input id="pacientes-cpf" type="text" disabled>
+            </div>
+            <div class="field">
+              <label for="pacientes-nascimento">Nascimento</label>
+              <input id="pacientes-nascimento" type="date" disabled>
+            </div>
+            <div class="field">
+              <label for="pacientes-telefone">Telefone</label>
+              <input id="pacientes-telefone" type="tel" disabled>
+            </div>
+            <div class="field full">
+              <label for="pacientes-endereco">Endereço</label>
+              <input id="pacientes-endereco" type="text" disabled>
+            </div>
+            <div class="field">
+              <label for="pacientes-email">E-mail</label>
+              <input id="pacientes-email" type="email" disabled>
+            </div>
+            </div>
+            <div class="form-actions"><button type="button" class="secondary" disabled>Cancelar</button><button type="button" disabled>Salvar registro</button></div>
+          </form>
+        </div>
+      </details>
+      
+    </section>
+    <section id="profissionais" class="screen" aria-labelledby="profissionais-title" hidden>
+      <div class="page-heading">
+        <div><p class="eyebrow">CUIDADO EM CADA ETAPA</p><h1 id="profissionais-title">Profissionais</h1><p class="page-description">Organize a equipe e as especialidades de atendimento.</p></div>
+        <button type="button" disabled>+ Novo profissional</button>
+      </div>
+      <div class="panel">
+        <div class="toolbar">
+          <div class="search"><label for="profissionais-search">Buscar em profissionais</label><input id="profissionais-search" type="search" placeholder="Digite para buscar…" disabled></div>
+          <span class="count">2 registros</span>
+        </div>
+        <div class="table-scroll" role="region" aria-label="Lista de profissionais" tabindex="0">
+          <table>
+            <caption hidden>Lista de profissionais</caption>
+            <thead><tr><th scope="col">Profissional</th><th scope="col">Registro</th><th scope="col">Especialidade</th><th scope="col">Telefone</th><th scope="col">Ações</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Helena Ribeiro<span class="subtext">helena@example.com</span></td>
+                <td>CRM-MG 00001</td>
+                <td>Clínica médica</td>
+                <td>(31) 90000-2001</td>
+                <td><button type="button" class="row-action" disabled>Editar</button></td>
+              </tr>
+              <tr>
+                <td>Rafael Almeida<span class="subtext">rafael@example.com</span></td>
+                <td>CRM-MG 00002</td>
+                <td>Cardiologia</td>
+                <td>(31) 90000-2002</td>
+                <td><button type="button" class="row-action" disabled>Editar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <details class="form-preview panel">
+        <summary>Visualizar formulário de profissionais</summary>
+        <div class="form-preview-body">
+          <h2>Novo profissional</h2>
+          <p class="form-help">Prévia visual da primeira sprint. Campos e botões sem funcionalidade.</p>
+          <form>
+            <div class="form-grid">
+            <div class="field">
+              <label for="profissionais-nome">Nome completo</label>
+              <input id="profissionais-nome" type="text" disabled>
+            </div>
+            <div class="field">
+              <label for="profissionais-registro">Registro profissional</label>
+              <input id="profissionais-registro" type="text" disabled>
+            </div>
+            <div class="field">
+              <label for="profissionais-especialidade">Especialidade</label>
+              <input id="profissionais-especialidade" type="text" disabled>
+            </div>
+            <div class="field">
+              <label for="profissionais-telefone">Telefone</label>
+              <input id="profissionais-telefone" type="tel" disabled>
+            </div>
+            <div class="field">
+              <label for="profissionais-email">E-mail</label>
+              <input id="profissionais-email" type="email" disabled>
+            </div>
+            </div>
+            <div class="form-actions"><button type="button" class="secondary" disabled>Cancelar</button><button type="button" disabled>Salvar registro</button></div>
+          </form>
+        </div>
+      </details>
+      
+    </section>
+    <section id="consultas" class="screen" aria-labelledby="consultas-title" hidden>
+      <div class="page-heading">
+        <div><p class="eyebrow">CUIDADO EM CADA ETAPA</p><h1 id="consultas-title">Consultas</h1><p class="page-description">Agende atendimentos e registre as observações médicas.</p></div>
+        <button type="button" disabled>+ Agendar consulta</button>
+      </div>
+      <div class="panel">
+        <div class="toolbar">
+          <div class="search"><label for="consultas-search">Buscar em consultas</label><input id="consultas-search" type="search" placeholder="Digite para buscar…" disabled></div>
+          <span class="count">2 registros</span>
+        </div>
+        <div class="table-scroll" role="region" aria-label="Lista de consultas" tabindex="0">
+          <table>
+            <caption hidden>Lista de consultas</caption>
+            <thead><tr><th scope="col">Paciente</th><th scope="col">Profissional</th><th scope="col">Data e horário</th><th scope="col">Motivo</th><th scope="col">Ações</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Ana Clara Martins</td>
+                <td>Helena Ribeiro</td>
+                <td>08/10/2026 às 09:00</td>
+                <td>Consulta de rotina</td>
+                <td><button type="button" class="row-action" disabled>Editar</button></td>
+              </tr>
+              <tr>
+                <td>Mariana Oliveira</td>
+                <td>Rafael Almeida</td>
+                <td>09/10/2026 às 14:30</td>
+                <td>Avaliação cardiológica</td>
+                <td><button type="button" class="row-action" disabled>Editar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <details class="form-preview panel">
+        <summary>Visualizar formulário de consultas</summary>
+        <div class="form-preview-body">
+          <h2>Agendar consulta</h2>
+          <p class="form-help">Prévia visual da primeira sprint. Campos e botões sem funcionalidade.</p>
+          <form>
+            <div class="form-grid">
+            <div class="field">
+              <label for="consultas-paciente">Paciente</label>
+              <select id="consultas-paciente" disabled><option>Selecione…</option><option>Ana Clara Martins</option><option>João Pedro Souza</option><option>Mariana Oliveira</option></select>
+            </div>
+            <div class="field">
+              <label for="consultas-profissional">Profissional responsável</label>
+              <select id="consultas-profissional" disabled><option>Selecione…</option><option>Helena Ribeiro · Clínica médica</option><option>Rafael Almeida · Cardiologia</option></select>
+            </div>
+            <div class="field">
+              <label for="consultas-data">Data</label>
+              <input id="consultas-data" type="date" disabled>
+            </div>
+            <div class="field">
+              <label for="consultas-horario">Horário</label>
+              <input id="consultas-horario" type="time" disabled>
+            </div>
+            <div class="field">
+              <label for="consultas-motivo">Motivo</label>
+              <input id="consultas-motivo" type="text" disabled>
+            </div>
+            <div class="field full">
+              <label for="consultas-observacoes">Observações médicas</label>
+              <textarea id="consultas-observacoes" disabled></textarea>
+            </div>
+            </div>
+            <div class="form-actions"><button type="button" class="secondary" disabled>Cancelar</button><button type="button" disabled>Salvar registro</button></div>
+          </form>
+        </div>
+      </details>
+      
+    </section>
+    <section id="internacoes" class="screen" aria-labelledby="internacoes-title" hidden>
+      <div class="page-heading">
+        <div><p class="eyebrow">CUIDADO EM CADA ETAPA</p><h1 id="internacoes-title">Internações</h1><p class="page-description">Acompanhe entradas, permanências e altas dos pacientes.</p></div>
+        <button type="button" disabled>+ Nova internação</button>
+      </div>
+      <div class="panel">
+        <div class="toolbar">
+          <div class="search"><label for="internacoes-search">Buscar em internações</label><input id="internacoes-search" type="search" placeholder="Digite para buscar…" disabled></div>
+          <span class="count">2 registros</span>
+        </div>
+        <div class="table-scroll" role="region" aria-label="Lista de internações" tabindex="0">
+          <table>
+            <caption hidden>Lista de internações</caption>
+            <thead><tr><th scope="col">Paciente</th><th scope="col">Profissional</th><th scope="col">Quarto</th><th scope="col">Entrada</th><th scope="col">Previsão de alta</th><th scope="col">Alta efetiva</th><th scope="col">Situação</th><th scope="col">Ações</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>João Pedro Souza</td>
+                <td>Helena Ribeiro</td>
+                <td>101</td>
+                <td>06/10/2026 às 10:00</td>
+                <td>10/10/2026</td>
+                <td>—</td>
+                <td><span class="pill">Em internação</span></td>
+                <td><button type="button" class="row-action" disabled>Editar</button> <button type="button" class="row-action" disabled>Registrar alta</button></td>
+              </tr>
+              <tr>
+                <td>Ana Clara Martins</td>
+                <td>Rafael Almeida</td>
+                <td>102</td>
+                <td>12/09/2026 às 08:00</td>
+                <td>14/09/2026</td>
+                <td>14/09/2026 às 11:00</td>
+                <td><span class="pill neutral">Alta registrada</span></td>
+                <td><button type="button" class="row-action" disabled>Editar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <details class="form-preview panel">
+        <summary>Visualizar formulário de internações</summary>
+        <div class="form-preview-body">
+          <h2>Nova internação</h2>
+          <p class="form-help">Prévia visual da primeira sprint. Campos e botões sem funcionalidade.</p>
+          <form>
+            <div class="form-grid">
+            <div class="field">
+              <label for="internacoes-paciente">Paciente</label>
+              <select id="internacoes-paciente" disabled><option>Selecione…</option><option>Ana Clara Martins</option><option>João Pedro Souza</option><option>Mariana Oliveira</option></select>
+            </div>
+            <div class="field">
+              <label for="internacoes-profissional">Profissional responsável</label>
+              <select id="internacoes-profissional" disabled><option>Selecione…</option><option>Helena Ribeiro · Clínica médica</option><option>Rafael Almeida · Cardiologia</option></select>
+            </div>
+            <div class="field">
+              <label for="internacoes-quarto">Quarto</label>
+              <select id="internacoes-quarto" disabled><option>Selecione…</option><option>Quarto 101 · 1/2 ocupados</option><option>Quarto 102 · 0/1 ocupados</option><option>Quarto 201 · Manutenção</option></select>
+            </div>
+            <div class="field">
+              <label for="internacoes-entrada">Entrada</label>
+              <input id="internacoes-entrada" type="datetime-local" disabled>
+            </div>
+            <div class="field">
+              <label for="internacoes-previsao">Previsão de alta</label>
+              <input id="internacoes-previsao" type="date" disabled>
+            </div>
+            <div class="field">
+              <label for="internacoes-alta">Alta efetiva</label>
+              <input id="internacoes-alta" type="datetime-local" disabled>
+            </div>
+            <div class="field full">
+              <label for="internacoes-observacoes">Observações</label>
+              <textarea id="internacoes-observacoes" disabled></textarea>
+            </div>
+            </div>
+            <div class="form-actions"><button type="button" class="secondary" disabled>Cancelar</button><button type="button" disabled>Salvar registro</button></div>
+          </form>
+        </div>
+      </details>
+      
+    </section>
+    <section id="quartos" class="screen" aria-labelledby="quartos-title" hidden>
+      <div class="page-heading">
+        <div><p class="eyebrow">CUIDADO EM CADA ETAPA</p><h1 id="quartos-title">Quartos</h1><p class="page-description">Consulte a disponibilidade e a ocupação dos quartos.</p></div>
+        <button type="button" disabled>+ Novo quarto</button>
+      </div>
+      <div class="panel">
+        <div class="toolbar">
+          <div class="search"><label for="quartos-search">Buscar em quartos</label><input id="quartos-search" type="search" placeholder="Digite para buscar…" disabled></div>
+          <span class="count">3 registros</span>
+        </div>
+        <div class="table-scroll" role="region" aria-label="Lista de quartos" tabindex="0">
+          <table>
+            <caption hidden>Lista de quartos</caption>
+            <thead><tr><th scope="col">Quarto</th><th scope="col">Andar</th><th scope="col">Ocupação</th><th scope="col">Vagas</th><th scope="col">Situação</th><th scope="col">Ações</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Quarto 101</td>
+                <td>1</td>
+                <td>1 / 2 leitos</td>
+                <td>1</td>
+                <td><span class="pill">Disponível</span></td>
+                <td><button type="button" class="row-action" disabled>Editar</button></td>
+              </tr>
+              <tr>
+                <td>Quarto 102</td>
+                <td>1</td>
+                <td>0 / 1 leitos</td>
+                <td>1</td>
+                <td><span class="pill">Disponível</span></td>
+                <td><button type="button" class="row-action" disabled>Editar</button></td>
+              </tr>
+              <tr>
+                <td>Quarto 201</td>
+                <td>2</td>
+                <td>0 / 2 leitos</td>
+                <td>0</td>
+                <td><span class="pill neutral">Manutenção</span></td>
+                <td><button type="button" class="row-action" disabled>Editar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <details class="form-preview panel">
+        <summary>Visualizar formulário de quartos</summary>
+        <div class="form-preview-body">
+          <h2>Novo quarto</h2>
+          <p class="form-help">Prévia visual da primeira sprint. Campos e botões sem funcionalidade.</p>
+          <form>
+            <div class="form-grid">
+            <div class="field">
+              <label for="quartos-numero">Número do quarto</label>
+              <input id="quartos-numero" type="text" disabled>
+            </div>
+            <div class="field">
+              <label for="quartos-andar">Andar</label>
+              <input id="quartos-andar" type="number" disabled>
+            </div>
+            <div class="field">
+              <label for="quartos-capacidade">Capacidade máxima</label>
+              <input id="quartos-capacidade" type="number" disabled>
+            </div>
+            <div class="field">
+              <label for="quartos-situacao">Situação</label>
+              <select id="quartos-situacao" disabled><option>Selecione…</option><option>Disponível</option><option>Manutenção</option><option>Interditado</option></select>
+            </div>
+            </div>
+            <div class="form-actions"><button type="button" class="secondary" disabled>Cancelar</button><button type="button" disabled>Salvar registro</button></div>
+          </form>
+        </div>
+      </details>
+      <p class="info">Ocupação e vagas são exemplos estáticos, sem cálculo ou atualização.</p>
+    </section>
+    <section id="historico" class="screen" aria-labelledby="historico-title" hidden>
+      <div class="page-heading"><div><p class="eyebrow">CUIDADO EM CADA ETAPA</p><h1 id="historico-title">Histórico</h1><p class="page-description">Veja consultas, internações e observações de cada paciente.</p></div></div>
+      <div class="panel">
+        <div class="toolbar"><div class="search history-select"><label for="history-patient">Selecione um paciente</label><select id="history-patient" disabled><option>Ana Clara Martins — 000.000.001-00</option></select></div></div>
+        <div class="history-body">
+          <p class="info">Exemplo fixo de histórico para apresentação da tela.</p>
+          <h2>Ana Clara Martins</h2>
+          <h3 class="history-title">Consultas <span class="badge">1</span></h3>
+          <article class="history-item">
+            <h3>08/10/2026 às 09:00 · Helena Ribeiro</h3>
+            <p><strong>Motivo:</strong> Consulta de rotina</p>
+            <p><strong>Observações médicas:</strong> Acompanhamento periódico registrado na demonstração.</p>
+          </article>
+          <h3 class="history-title">Internações <span class="badge">1</span></h3>
+          <article class="history-item">
+            <h3>Quarto 102 · Alta registrada</h3>
+            <p><strong>Responsável:</strong> Rafael Almeida</p>
+            <p><strong>Entrada:</strong> 12/09/2026 às 08:00 · <strong>Previsão de alta:</strong> 14/09/2026</p>
+            <p><strong>Alta efetiva:</strong> 14/09/2026 às 11:00</p>
+            <p><strong>Observações:</strong> Alta registrada após evolução satisfatória.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <footer>MedCare · Projeto acadêmico <span>Informações exclusivamente fictícias</span></footer>
+  </main>
+</body>
+</html>

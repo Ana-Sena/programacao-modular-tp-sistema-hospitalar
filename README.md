@@ -8,3 +8,9 @@ O **Sistema de Informação Hospitalar** visa substituir registros manuais por u
 * [Alexia Andrade](https://github.com/aalexiaandrade)
 * [Ana Júlia Sena](https://github.com/Ana-Sena)
 * [Evelyn Costa](https://github.com/Evycostzocn)
+
+
+## 📊 Diagrama UML
+
+
+## Cartão CRC
