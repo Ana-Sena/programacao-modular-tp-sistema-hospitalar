@@ -25,6 +25,11 @@ public class ConsultaRotina extends Atendimento {
     }
 
     @Override
+    public void validarCondicoes(String especialidadeProfissional) {
+        validarEstrutura();
+    }
+
+    @Override
     protected void validarDadosEspecificos() {
         exigirTexto(motivo, "Motivo");
     }

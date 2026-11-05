@@ -19,6 +19,11 @@ public class AtendimentoEmergencia extends Atendimento {
     }
 
     @Override
+    public void validarCondicoes(String especialidadeProfissional) {
+        validarEstrutura();
+    }
+
+    @Override
     protected void validarDadosEspecificos() {
         if (prioridade == null) {
             throw new IllegalArgumentException("Prioridade é obrigatória.");

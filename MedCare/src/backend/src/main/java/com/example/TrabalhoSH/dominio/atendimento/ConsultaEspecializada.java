@@ -25,6 +25,17 @@ public class ConsultaEspecializada extends Atendimento {
     }
 
     @Override
+    public void validarCondicoes(String especialidadeProfissional) {
+        validarEstrutura();
+        exigirTexto(especialidadeProfissional, "Especialidade do médico responsável");
+        // Compara o dado recebido do profissional, sem duplicá-lo como atributo.
+        if (!especialidade.strip().equalsIgnoreCase(especialidadeProfissional.strip())) {
+            throw new IllegalArgumentException(
+                    "Especialidade da consulta incompatível com a do médico responsável.");
+        }
+    }
+
+    @Override
     protected void validarDadosEspecificos() {
         exigirTexto(especialidade, "Especialidade");
     }
