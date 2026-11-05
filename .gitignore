@@ -1,0 +1,23 @@
+# Compilação Java/Maven
+target/
+*.class
+
+# Configurações locais das IDEs
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+
+# Ferramentas e arquivos locais
+.agents/
+.codex/
+.aws/
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db

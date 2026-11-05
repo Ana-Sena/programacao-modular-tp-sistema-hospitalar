@@ -1,6 +1,7 @@
 package com.example.TrabalhoSH.api.internacao;
 
 import com.example.TrabalhoSH.api.paciente.PacienteService;
+import com.example.TrabalhoSH.service.ProfissionalSaudeService;
 import com.example.TrabalhoSH.api.quarto.QuartoService;
 import com.example.TrabalhoSH.dominio.internacao.Internacao;
 import com.example.TrabalhoSH.dominio.internacao.Quarto;
@@ -21,10 +22,12 @@ public class InternacaoService {
     private final Map<String, Internacao> registros = new LinkedHashMap<>();
     private final PacienteService pacientes;
     private final QuartoService quartos;
+    private final ProfissionalSaudeService profissionais;
 
-    public InternacaoService(PacienteService pacientes, QuartoService quartos) {
+    public InternacaoService(PacienteService pacientes, QuartoService quartos, ProfissionalSaudeService profissionais) {
         this.pacientes = pacientes;
         this.quartos = quartos;
+        this.profissionais = profissionais;
     }
 
     public InternacaoResposta cadastrar(CadastroInternacao entrada) {
@@ -33,6 +36,10 @@ public class InternacaoService {
                     || entrada.quartoId() == null || entrada.quartoId().isBlank()) {
                 throw new IllegalArgumentException("Os dados da internação, paciente e quarto são obrigatórios.");
             }
+            if (entrada.medicoResponsavelId() == null || entrada.medicoResponsavelId().isBlank()) {
+                throw new IllegalArgumentException("Identificador do médico responsável é obrigatório.");
+            }
+            profissionais.obter(entrada.medicoResponsavelId());
             Paciente paciente = pacientes.obter(entrada.pacienteId());
             Quarto quarto = quartos.obter(entrada.quartoId());
             if (registros.values().stream().anyMatch(atual -> atual.estaAtiva()

@@ -1,6 +1,8 @@
 package com.example.TrabalhoSH.api.consulta;
 
 import com.example.TrabalhoSH.dominio.atendimento.*;
+import com.example.TrabalhoSH.api.paciente.PacienteService;
+import com.example.TrabalhoSH.service.ProfissionalSaudeService;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,14 @@ import org.springframework.web.server.ResponseStatusException;
 public class ConsultaService {
 
     private final Map<String, Atendimento> registros = new LinkedHashMap<>();
+
+    private final PacienteService pacientes;
+    private final ProfissionalSaudeService profissionais;
+
+    public ConsultaService(PacienteService pacientes, ProfissionalSaudeService profissionais) {
+        this.pacientes = pacientes;
+        this.profissionais = profissionais;
+    }
 
     // Sincroniza leitura e alteração para não expor estados intermediários entre requisições.
     public synchronized ConsultaResposta cadastrar(CadastroConsulta entrada) {
@@ -32,6 +42,8 @@ public class ConsultaService {
                     entrada.medicoResponsavelId(), prioridade);
         };
         atendimento.validarEstrutura();
+        pacientes.obter(atendimento.getPacienteId());
+        profissionais.obter(atendimento.getMedicoResponsavelId());
         String especialidadeProfissional = atendimento instanceof ConsultaEspecializada
                 ? obterEspecialidadeProfissional(atendimento.getMedicoResponsavelId()) : null;
         atendimento.validarCondicoes(especialidadeProfissional);
@@ -93,9 +105,7 @@ public class ConsultaService {
     }
 
     private String obterEspecialidadeProfissional(String medicoId) {
-        // Integrar com o módulo da Alexia usando medicoId; nunca confiar nesse dado vindo do cliente.
-        throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
-                "Integração com profissionais indisponível: não é possível verificar a especialidade do médico responsável.");
+        return profissionais.obter(medicoId).getEspecialidade();
     }
 
     private static <E extends Enum<E>> E lerEnum(Class<E> tipo, String valor, String campo) {

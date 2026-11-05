@@ -1,4 +1,4 @@
-package enums;
+package com.example.TrabalhoSH.enums;
 
 public enum SituacaoProcedimento {
     AGENDADO,

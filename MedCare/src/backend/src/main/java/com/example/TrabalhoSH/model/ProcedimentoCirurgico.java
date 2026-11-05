@@ -1,6 +1,7 @@
-package model;
+package com.example.TrabalhoSH.model;
 import java.time.LocalDateTime;
-import enums.SituacaoProcedimento;
+import com.example.TrabalhoSH.dominio.paciente.Paciente;
+import com.example.TrabalhoSH.enums.SituacaoProcedimento;
 
 public class ProcedimentoCirurgico {
 

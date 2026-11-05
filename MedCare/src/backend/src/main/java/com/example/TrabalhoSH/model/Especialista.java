@@ -1,4 +1,4 @@
-package model;
+package com.example.TrabalhoSH.model;
 
 public class Especialista extends ProfissionalSaude{
 

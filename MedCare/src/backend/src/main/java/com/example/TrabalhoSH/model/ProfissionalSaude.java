@@ -1,7 +1,8 @@
-package model;
+package com.example.TrabalhoSH.model;
 
 public abstract class ProfissionalSaude {
 
+    private final String id = java.util.UUID.randomUUID().toString();
     private String nome;
     private String registroProfissional;
     private String especialidade;
@@ -21,6 +22,10 @@ public abstract class ProfissionalSaude {
     }
 
     // Getters e Setters
+    public String getId() {
+        return id;
+    }
+
     public String getNome() {
         return nome;
     }

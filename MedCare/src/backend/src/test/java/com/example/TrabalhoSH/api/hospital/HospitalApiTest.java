@@ -6,6 +6,8 @@ import com.example.TrabalhoSH.api.paciente.PacienteController;
 import com.example.TrabalhoSH.api.paciente.PacienteService;
 import com.example.TrabalhoSH.api.quarto.QuartoController;
 import com.example.TrabalhoSH.api.quarto.QuartoService;
+import com.example.TrabalhoSH.service.ProfissionalSaudeService;
+import com.example.TrabalhoSH.controller.ProfissionalSaudeRequest;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,12 +36,15 @@ class HospitalApiTest {
     private PacienteService pacientes;
     private QuartoService quartos;
     private InternacaoService internacoes;
+    private String medicoId;
 
     @BeforeEach
     void preparar() {
         pacientes = new PacienteService();
         quartos = new QuartoService();
-        internacoes = new InternacaoService(pacientes, quartos);
+        ProfissionalSaudeService profissionais = new ProfissionalSaudeService();
+        medicoId = cadastrarMedico(profissionais);
+        internacoes = new InternacaoService(pacientes, quartos, profissionais);
         mvc = MockMvcBuilders.standaloneSetup(new PacienteController(pacientes),
                 new QuartoController(quartos), new InternacaoController(internacoes))
                 .setControllerAdvice(new HospitalErros()).build();
@@ -176,7 +181,7 @@ class HospitalApiTest {
         String paciente = cadastrar("pacientes", PACIENTE);
         String quarto = cadastrar("quartos", QUARTO);
         String entrada = entrada(paciente, quarto);
-        for (String json : new String[]{"{}", "null", "{", entrada.replace("\"m1\"", "\" \""),
+        for (String json : new String[]{"{}", "null", "{", entrada.replace(medicoId, " "),
                 entrada.replace(LocalDate.now().toString(), LocalDate.now().plusDays(1).toString()),
                 entrada.replace(LocalDate.now().toString(), "1999-01-01"),
                 entrada.replace("}", ",\"dataPrevistaAlta\":\"1999-01-01\"}"),
@@ -187,6 +192,7 @@ class HospitalApiTest {
         }
         rejeitarCadastro("internacoes", entrada.replace(paciente, "inexistente"), 404);
         rejeitarCadastro("internacoes", entrada.replace(quarto, "inexistente"), 404);
+        rejeitarCadastro("internacoes", entrada.replace(medicoId, "inexistente"), 404);
         assertTrue(internacoes.listar().isEmpty());
         assertEquals(0, quartos.buscar(quarto).ocupacaoAtual());
     }
@@ -239,8 +245,17 @@ class HospitalApiTest {
                 .andExpect(status().is(statusEsperado));
     }
 
+    private String cadastrarMedico(ProfissionalSaudeService profissionais) {
+        ProfissionalSaudeRequest entrada = new ProfissionalSaudeRequest();
+        entrada.setTipo("especialista");
+        entrada.setNome("Helena");
+        entrada.setRegistroProfissional("CRM-MG 123");
+        entrada.setEspecialidade("Cardiologia");
+        return profissionais.cadastrar(entrada).getId();
+    }
+
     private String entrada(String pacienteId, String quartoId) {
         return "{\"pacienteId\":\"" + pacienteId + "\",\"quartoId\":\"" + quartoId
-                + "\",\"medicoResponsavelId\":\"m1\",\"dataEntrada\":\"" + LocalDate.now() + "\"}";
+                + "\",\"medicoResponsavelId\":\"" + medicoId + "\",\"dataEntrada\":\"" + LocalDate.now() + "\"}";
     }
 }

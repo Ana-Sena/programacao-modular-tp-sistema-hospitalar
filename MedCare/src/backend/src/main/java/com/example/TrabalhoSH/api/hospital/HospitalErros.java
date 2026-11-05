@@ -1,6 +1,7 @@
 package com.example.TrabalhoSH.api.hospital;
 
 import com.example.TrabalhoSH.api.internacao.InternacaoController;
+import com.example.TrabalhoSH.controller.ProfissionalSaudeController;
 import com.example.TrabalhoSH.api.paciente.PacienteController;
 import com.example.TrabalhoSH.api.quarto.QuartoController;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
 /** Tratamento limitado aos módulos de pacientes, internações e quartos. */
-@RestControllerAdvice(assignableTypes = {PacienteController.class, InternacaoController.class, QuartoController.class})
+@RestControllerAdvice(assignableTypes = {PacienteController.class, InternacaoController.class, QuartoController.class, ProfissionalSaudeController.class})
 public class HospitalErros {
 
     public record Erro(String mensagem) { }

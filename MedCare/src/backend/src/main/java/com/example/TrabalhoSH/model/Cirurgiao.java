@@ -1,4 +1,4 @@
-package model;
+package com.example.TrabalhoSH.model;
 
 public class Cirurgiao extends ProfissionalSaude{
     public Cirurgiao(){

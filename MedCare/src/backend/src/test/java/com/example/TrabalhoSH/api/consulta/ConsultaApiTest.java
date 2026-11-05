@@ -1,5 +1,12 @@
 package com.example.TrabalhoSH.api.consulta;
 
+import com.example.TrabalhoSH.service.ProfissionalSaudeService;
+import com.example.TrabalhoSH.controller.ProfissionalSaudeRequest;
+import com.example.TrabalhoSH.controller.ProfissionalSaudeController;
+import com.example.TrabalhoSH.api.hospital.HospitalErros;
+import com.example.TrabalhoSH.api.paciente.*;
+import com.example.TrabalhoSH.dominio.paciente.Endereco;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -14,6 +21,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ConsultaApiTest {
 
     private ConsultaService service;
+    private String pacienteId;
+    private String medicoId;
+    private ProfissionalSaudeService profissionais;
     private MockMvc mvc;
     private static final String ROTINA = """
             {"modalidade":"ROTINA","data":"2026-11-05","horario":"10:30:00",
@@ -30,9 +40,15 @@ class ConsultaApiTest {
 
     @BeforeEach
     void preparar() {
-        service = new ConsultaService();
-        mvc = MockMvcBuilders.standaloneSetup(new ConsultaController(service))
-                .setControllerAdvice(new ConsultaErros()).build();
+        PacienteService pacientes = new PacienteService();
+        profissionais = new ProfissionalSaudeService();
+        medicoId = cadastrarMedico(profissionais);
+        pacienteId = pacientes.cadastrar(new CadastroPaciente("Ana", "52998224725", LocalDate.of(2000, 1, 1),
+                "31999999999", "ana@exemplo.com", new Endereco("Rua A", "10", null,
+                "Centro", "Belo Horizonte", "MG", "30100000"))).id();
+        service = new ConsultaService(pacientes, profissionais);
+        mvc = MockMvcBuilders.standaloneSetup(new ConsultaController(service), new ProfissionalSaudeController(profissionais))
+                .setControllerAdvice(new ConsultaErros(), new HospitalErros()).build();
     }
 
     @Test
@@ -65,7 +81,7 @@ class ConsultaApiTest {
                 ROTINA.replace("\"Retorno\"", "null"), EMERGENCIA.replace("CRITICA", "URGENTE"),
                 EMERGENCIA.replace("\"CRITICA\"", "null")};
         for (String json : invalidos) {
-            mvc.perform(post("/consultas").contentType(MediaType.APPLICATION_JSON).content(json))
+            mvc.perform(post("/consultas").contentType(MediaType.APPLICATION_JSON).content(associar(json)))
                     .andExpect(status().isBadRequest()).andExpect(jsonPath("$.mensagem").isNotEmpty());
         }
         assertTrue(service.listar().isEmpty());
@@ -83,13 +99,43 @@ class ConsultaApiTest {
     }
 
     @Test
-    void especializadaExigeIntegracaoConfiavelESemCadastroParcial() throws Exception {
-        mvc.perform(post("/consultas").contentType(MediaType.APPLICATION_JSON).content(ESPECIALIZADA))
-                .andExpect(status().isServiceUnavailable())
-                .andExpect(jsonPath("$.mensagem").value("Integração com profissionais indisponível: não é possível verificar a especialidade do médico responsável."));
+    void especializadaUsaCadastroRealDoProfissional() throws Exception {
+        String id = cadastrar(ESPECIALIZADA);
+        alterar(id, "CONFIRMADA", 200);
+        alterar(id, "EM_ATENDIMENTO", 200);
         mvc.perform(post("/consultas").contentType(MediaType.APPLICATION_JSON)
-                .content(ESPECIALIZADA.replace("}", ",\"especialidadeProfissional\":\"Cardiologia\"}")))
+                .content(associar(ESPECIALIZADA.replace("Cardiologia", "Ortopedia"))))
                 .andExpect(status().isBadRequest());
+        mvc.perform(post("/consultas").contentType(MediaType.APPLICATION_JSON)
+                .content(associar(ESPECIALIZADA.replace("}", ",\"especialidadeProfissional\":\"Cardiologia\"}"))))
+                .andExpect(status().isBadRequest());
+        assertEquals(1, service.listar().size());
+    }
+
+    @Test
+    void profissionalCadastradoPelaApiPodeAtenderConsultaEspecializada() throws Exception {
+        mvc.perform(post("/profissionais").contentType(MediaType.APPLICATION_JSON).content("""
+                {"tipo":"especialista","nome":"Maria","registroProfissional":"CRM-MG 456",
+                 "especialidade":"Ortopedia","telefone":"31999999999","email":"maria@exemplo.com"}
+                """))
+                .andExpect(status().isCreated()).andExpect(jsonPath("$.id").isNotEmpty());
+        String medico = profissionais.listar().get(1).getId();
+        String id = cadastrar(ESPECIALIZADA.replace("m1", medico).replace("Cardiologia", "Ortopedia"));
+        alterar(id, "CONFIRMADA", 200);
+        // O início consulta novamente o cadastro, sem usar a especialidade enviada pelo cliente.
+        profissionais.obter(medico).setEspecialidade("Cardiologia");
+        alterar(id, "EM_ATENDIMENTO", 400);
+        assertEquals("CONFIRMADA", service.buscar(id).situacao());
+        profissionais.obter(medico).setEspecialidade("Ortopedia");
+        alterar(id, "EM_ATENDIMENTO", 200);
+    }
+
+    @Test
+    void rejeitaPacienteOuMedicoNaoCadastrado() throws Exception {
+        for (String json : new String[]{ROTINA.replace("p1", "inexistente"), ROTINA.replace("m1", "inexistente")}) {
+            mvc.perform(post("/consultas").contentType(MediaType.APPLICATION_JSON).content(associar(json)))
+                    .andExpect(status().isNotFound());
+        }
         assertTrue(service.listar().isEmpty());
     }
 
@@ -138,8 +184,21 @@ class ConsultaApiTest {
         assertEquals("CONCLUIDA", service.buscar(id).situacao());
     }
 
+    private String cadastrarMedico(ProfissionalSaudeService profissionais) {
+        ProfissionalSaudeRequest entrada = new ProfissionalSaudeRequest();
+        entrada.setTipo("especialista");
+        entrada.setNome("Helena");
+        entrada.setRegistroProfissional("CRM-MG 123");
+        entrada.setEspecialidade("Cardiologia");
+        return profissionais.cadastrar(entrada).getId();
+    }
+
+    private String associar(String json) {
+        return json.replace("p1", pacienteId).replace("m1", medicoId);
+    }
+
     private String cadastrar(String json) throws Exception {
-        var resultado = mvc.perform(post("/consultas").contentType(MediaType.APPLICATION_JSON).content(json))
+        var resultado = mvc.perform(post("/consultas").contentType(MediaType.APPLICATION_JSON).content(associar(json)))
                 .andExpect(status().isCreated()).andExpect(jsonPath("$.id").isNotEmpty()).andReturn();
         String local = resultado.getResponse().getHeader("Location");
         assertNotNull(local);

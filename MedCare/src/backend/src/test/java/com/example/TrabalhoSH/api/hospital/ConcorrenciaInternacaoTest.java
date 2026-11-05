@@ -8,6 +8,8 @@ import com.example.TrabalhoSH.api.quarto.CadastroQuarto;
 import com.example.TrabalhoSH.api.quarto.QuartoService;
 import com.example.TrabalhoSH.dominio.internacao.TipoQuarto;
 import com.example.TrabalhoSH.dominio.paciente.Endereco;
+import com.example.TrabalhoSH.service.ProfissionalSaudeService;
+import com.example.TrabalhoSH.controller.ProfissionalSaudeRequest;
 import java.time.LocalDate;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
@@ -18,12 +20,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ConcorrenciaInternacaoTest {
+    private String medicoId;
 
     @Test
     void apenasUmaRequisicaoConsegueOcuparAUltimaVaga() throws Exception {
         PacienteService pacientes = new PacienteService();
         QuartoService quartos = new QuartoService();
-        InternacaoService internacoes = new InternacaoService(pacientes, quartos);
+        ProfissionalSaudeService profissionais = new ProfissionalSaudeService();
+        medicoId = cadastrarMedico(profissionais);
+        InternacaoService internacoes = new InternacaoService(pacientes, quartos, profissionais);
         String p1 = pacientes.cadastrar(paciente("52998224725")).id();
         String p2 = pacientes.cadastrar(paciente("11144477735")).id();
         String quarto = quartos.cadastrar(new CadastroQuarto("101", 1, TipoQuarto.UTI, 1)).id();
@@ -44,7 +49,9 @@ class ConcorrenciaInternacaoTest {
     void pacienteNaoConsegueDuasEntradasSimultaneasEmQuartosDiferentes() throws Exception {
         PacienteService pacientes = new PacienteService();
         QuartoService quartos = new QuartoService();
-        InternacaoService internacoes = new InternacaoService(pacientes, quartos);
+        ProfissionalSaudeService profissionais = new ProfissionalSaudeService();
+        medicoId = cadastrarMedico(profissionais);
+        InternacaoService internacoes = new InternacaoService(pacientes, quartos, profissionais);
         String paciente = pacientes.cadastrar(paciente("52998224725")).id();
         String q1 = quartos.cadastrar(new CadastroQuarto("101", 1, TipoQuarto.UTI, 1)).id();
         String q2 = quartos.cadastrar(new CadastroQuarto("102", 1, TipoQuarto.UTI, 1)).id();
@@ -68,12 +75,21 @@ class ConcorrenciaInternacaoTest {
                 throw new IllegalStateException("Tempo esgotado aguardando a largada do teste.");
             }
             try {
-                service.cadastrar(new CadastroInternacao(paciente, "m1", quarto, LocalDate.now(), null, null));
+                service.cadastrar(new CadastroInternacao(paciente, medicoId, quarto, LocalDate.now(), null, null));
                 return true;
             } catch (IllegalStateException conflito) {
                 return false;
             }
         };
+    }
+
+    private String cadastrarMedico(ProfissionalSaudeService profissionais) {
+        ProfissionalSaudeRequest entrada = new ProfissionalSaudeRequest();
+        entrada.setTipo("especialista");
+        entrada.setNome("Helena");
+        entrada.setRegistroProfissional("CRM-MG 123");
+        entrada.setEspecialidade("Cardiologia");
+        return profissionais.cadastrar(entrada).getId();
     }
 
     private CadastroPaciente paciente(String cpf) {
